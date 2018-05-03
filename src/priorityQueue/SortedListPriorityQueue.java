@@ -26,12 +26,18 @@ public class SortedListPriorityQueue<K, V> extends AbstractListPriorityQueue<K, 
 	public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
 		super.validate(key); 
 		Entry<K,V> newest = new PQEntry<K,V>(key, value);
-		int curr = list.size()-1; 
-		while (curr >= 0  && compare(list.get(curr), newest) > 0)
-			curr--; 
-		if(curr == -1)
-			list.add(0, newest);
-		else list.add(curr, newest);
+		int curr = list.size()-1;
+		if(curr == -1) {
+			list.add(curr+1,newest);
+			return newest;
+		}
+		while (curr >= 0 && compare(list.get(curr), newest) > 0)
+			curr--;
+		if(curr == -1) {
+			list.add(curr+1,newest);
+			return newest;
+		}
+		list.add(curr+1, newest);
 		
 		return newest; 
 	}
